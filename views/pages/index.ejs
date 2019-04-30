@@ -10,8 +10,12 @@
 </head>
 
 <body>
-
-  <h1>Hello World</h1>
+  <form action="/searches" method="post">
+    <label for="author-radio">Author</label><input name="author" type="radio" value="Author" id="author-radio">
+    <label for="title-radio">Title</label><input name="title" type="radio" value="Title" id="title-radio">
+    <input name="search-field" type="text" value="" id="book-search" placeholder="Search by Author or Title">
+    <input type="submit">
+  </form>
 </body>
 
 </html>
