@@ -16,21 +16,28 @@ app.use(express.static('./public/styles'));
 
 app.use(express.static('./public'));
 
+
+//! MIXED CONTENT
+
 // Routes
 app.get('/', (req, res) => {
   res.render('pages/index');
 });
 
+app.get('/searches/show', (req, res) => {
+
+});
+
 app.post('/searches', (req, res) => {
   try {
-    console.log(req.body);
-    const searchQuery = req.body.title;
+    const searchQuery = req.body;
     res.send(searchBook(searchQuery));
   }
   catch (error) {
     console.log(error);
   }
 });
+
 
 Book.all = [];
 // Book constructor
@@ -42,12 +49,12 @@ function Book(title, author, description) {
 }
 
 const searchBook = (query) => {
-  // if seatching by title use inTitle, or inAuthor
 
-  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? `intitle:${query.searchField}` : `inauthor:${query.searchField}`}`;
+  console.log(query.title);
+  console.log(query.searchField);
   return superagent.get(URL)
     .then(data => {
-      // console.log(data.body.items);
       const bookList = data.body.items.map(book => {
         const title = book.volumeInfo.title;
         const author = book.volumeInfo.authors;
