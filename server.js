@@ -31,7 +31,7 @@ app.get('/searches/show', (req, res) => {
 app.post('/searches', (req, res) => {
   try {
     const searchQuery = req.body;
-    res.send(searchBook(searchQuery));
+    searchBook(searchQuery, res);
   }
   catch (error) {
     console.log(error);
@@ -48,9 +48,9 @@ function Book(title, author, description) {
   Book.all.push(this);
 }
 
-const searchBook = (query) => {
+const searchBook = (query, res) => {
 
-  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? `intitle:${query.searchField}` : `inauthor:${query.searchField}`}`;
+  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? query.searchField : `inauthor:${query.searchField}`}`;
   console.log(query.title);
   console.log(query.searchField);
   return superagent.get(URL)
@@ -64,7 +64,7 @@ const searchBook = (query) => {
         return novel;
       });
       console.log(bookList);
-      return bookList;
+      res.send(bookList);
     });
 };
 
