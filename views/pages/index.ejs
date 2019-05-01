@@ -17,6 +17,15 @@
 
 <a href="/search">Search Books</a>
 
+<% data.forEach(book => { %>
+<li class="saved-book">
+  <img src=<%= book.image %>alt="book thumbnail">
+  <h4><%= book.title %></h4>
+  <h6><%= book.author %></h6>
+  <p><%= book.description %></p>
+</li>
+})
+
 </body>
 
 </html>
