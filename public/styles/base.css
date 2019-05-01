@@ -1,7 +1,6 @@
 body {
-  background-color: #222;
-  color: #fff;
   text-align: center;
+  font-family: 'Work Sans', sans-serif;
 }
 
 input[type="text"] {
