@@ -47,9 +47,9 @@ app.post('/searches', (req, res) => {
 function getBooksFromDB(req, res) {
 
   const handler = {
-    query: req.query,
 
     cacheHit: function (results) {
+      console.log('Found stuff in DB!');
       res.render('pages/index', { results: results.rows });
     },
   };
@@ -57,8 +57,9 @@ function getBooksFromDB(req, res) {
 }
 
 Book.lookup = function (handler) {
-  const SQL = `SELECT * FROM books WHERE id=$1`;
-  client.query(SQL, [handler.query.id])
+  const SQL = `SELECT * FROM books;`;
+
+  client.query(SQL)
     .then(result => {
 
       console.log('RESULT: ' + result);
