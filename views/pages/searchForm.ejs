@@ -20,8 +20,12 @@
   <form action="/searches" method="post">
 
     <input name="searchField" type="text" value="" id="book-search" placeholder="Enter a title or author">
-    <label for="author-radio">Author</label><input name="searchType" type="radio" value="Author" id="author-radio">
-    <label for="title-radio">Title</label><input name="searchType" type="radio" value="Title" id="title-radio">
+    <section class="radio-input">
+      <label for="author-radio">Author</label><input name="searchType" type="radio" value="Author" id="author-radio">
+    </section>
+    <section class="radio-input">
+      <label for="title-radio">Title</label><input name="searchType" type="radio" value="Title" id="title-radio">
+    </section>
     <input type="submit" value="SEARCH">
   </form>
 

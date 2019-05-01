@@ -4,34 +4,56 @@ SEARCH FORM
 
 header h5 {
   position: relative;
-  top: 30%;
+  top: 40%;
+  font-size: 1.1rem;
+  /* color: #1CC6FF; */
 }
 
 input[type="text"] {
+  color: #1CC6FF;
   width: 250px;
-  height: 25px;
+  height: 50px;
   display: block;
   margin: 0 auto 20px;
   border: 1px solid #ccc;
   border-radius: 3px;
   padding: 5px 10px;
+  box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
 }
 
 input[type="radio"] {
+  background-color: #fff;
+  /* margin-top: 10px; */
+}
 
+form .radio-input {
+  width: 100px;
+  height: 30px;
+  color: #1CC6FF;
+  display: inline-block;
+  margin: 0 10px;
+  padding: 15px 5px 5px 5px;
+  border-radius: 3px;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
+  cursor: pointer;
+}
+
+label {
+  margin-right: 10px;
 }
 
 input[type="submit"] {
   display: block;
   margin: 20px auto 0 auto;
   width: 250px;
-  height: 25px;
+  height: 50px;
   padding: 5px 10px;
   box-shadow: 0 4px 6px rgba(50,50,93,.11), 0 1px 3px rgba(0,0,0,.08);
   background-color: #fff;
   border-radius: 3px;
-  font-size: .6rem;
+  font-size: .7rem;
   font-weight: bold;
   color: #1CC6FF;
-
+  cursor: pointer;
 }
