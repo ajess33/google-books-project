@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/searches/show', (req, res) => {
-
+  // res.render()
 });
 
 app.post('/searches', (req, res) => {
