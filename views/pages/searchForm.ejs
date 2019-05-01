@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Search Books</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="modules.css">
+  <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="state.css">
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
+</head>
+
+<body>
+  <header>
+    <h5>Search By Title or Author</h5>
+  </header>
+  <form action="/searches" method="post">
+
+    <input name="searchField" type="text" value="" id="book-search" placeholder="Enter a title or author">
+    <label for="author-radio">Author</label><input name="searchType" type="radio" value="Author" id="author-radio">
+    <label for="title-radio">Title</label><input name="searchType" type="radio" value="Title" id="title-radio">
+    <input type="submit" value="SEARCH">
+  </form>
+
+</body>
+
+</html>

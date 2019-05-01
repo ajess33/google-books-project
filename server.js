@@ -7,7 +7,6 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const API_KEY = process.env.API_KEY;
 
 // FILE DEPENDENCIES
 const helper = require('./helpers');
@@ -22,15 +21,13 @@ app.use(express.static('./public/styles'));
 app.use(express.static('./public'));
 
 
-//! MIXED CONTENT
-
 // ROUTES
 app.get('/', (req, res) => {
   res.render('pages/index');
 });
 
-app.get('/searches/show', (req, res) => {
-  // res.render()
+app.get('/search', (req, res) => {
+  res.render('pages/searchForm');
 });
 
 app.post('/searches', (req, res) => {
