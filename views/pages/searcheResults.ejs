@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Book Results</title>
+</head>
+<body>
+
+  <% data.forEach(book => { %>
+    <li class="saved-book">
+      <img src=<%= book.image %>alt="book thumbnail">
+      <h4><%= book.title %></h4>
+      <h6><%= book.author %></h6>
+      <p><%= book.description %></p>
+    </li>
+  <% }) %>
+
+</body>
+</html>

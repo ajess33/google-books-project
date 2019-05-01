@@ -52,12 +52,6 @@ function getBooksFromDB(req, res) {
     cacheHit: function (results) {
       res.render('pages/index', { results: results.rows });
     },
-
-    cacheMiss: function () {
-      searchBook(req.body, res).catch(error => {
-        console.log(error);
-      });
-    }
   };
   Book.lookup(handler);
 }
@@ -69,9 +63,6 @@ Book.lookup = function (handler) {
       if (result.rowCount > 0) {
         console.log('RESULT: ' + result);
         handler.cacheHit(result);
-      } else {
-        console.log('Got data from API');
-        handler.cacheMiss();
       }
     });
 };
@@ -108,11 +99,13 @@ const searchBook = (query, res) => {
 
         // run objects through constructor
         const novel = new Book(title, author, desc, image, isbn, bookshelf);
-        novel.save();
+
+        // save when someone clicks the save button
+        // novel.save();
 
         return novel;
       });
-      res.render('pages/searchForm', { data: bookList });
+      res.render('pages/searchResults', { data: bookList });
     });
 };
 
