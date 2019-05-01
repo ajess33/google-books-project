@@ -11,5 +11,8 @@ module.exports = {
     return url;
   },
 
+  concatIsbn: function (object) {
+    return `${object[0].type} ${object[0].identifier}`;
+  }
 
 };
