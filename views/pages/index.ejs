@@ -17,21 +17,21 @@
 
 <a href="/search">Search Books</a>
 
-<%= if(results.rows > 0)  {%>
+<% if (results.length > 0)  {%>
 <ul class="saved-books">
   <% results.forEach(book => { %>
-    <li class="saved-book">
-      <img src=<%= book.image %>alt="book thumbnail">
-      <h4><%= book.title %></h4>
-      <h6><%= book.author %></h6>
-      <p><%= book.description %></p>
-      <button>Save To List</button>
-    </li>
+  <li class="saved-book">
+    <img src=<%= book.image %>alt="book thumbnail">
+    <h4><%= book.title %></h4>
+    <h6><%= book.author %></h6>
+    <p><%= book.description %></p>
+    <button>Save To List</button>
+  </li>
   <% }) %>
 </ul>
 <% } else { %>
-    <h3>No Saved Books!</h3>
-  <% } %>
+<h3>No Saved Books!</h3>
+<% } %>
 </body>
 
 </html>

@@ -60,10 +60,9 @@ Book.lookup = function (handler) {
   const SQL = `SELECT * FROM books WHERE id=$1`;
   client.query(SQL, [handler.query.id])
     .then(result => {
-      if (result.rowCount > 0) {
-        console.log('RESULT: ' + result);
-        handler.cacheHit(result);
-      }
+
+      console.log('RESULT: ' + result);
+      handler.cacheHit(result);
     });
 };
 
