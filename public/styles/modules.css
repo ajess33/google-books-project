@@ -2,7 +2,12 @@
 SAVED BOOKS
 ================================= */
 
-
+.saved-books-count {
+  display: block;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
 
 .saved-books-form {
   background-color: #D9E9FA;

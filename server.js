@@ -41,7 +41,6 @@ app.get('/books/:id', (req, res) => {
 });
 
 app.post('/save', (req, res) => {
-  console.log(req.body);
   saveBook(req.body);
   res.redirect('/');
 });
@@ -73,8 +72,6 @@ Book.lookup = function (handler) {
 
   client.query(SQL)
     .then(result => {
-
-      console.log('RESULT: ' + result);
       handler.cacheHit(result);
     });
 };
@@ -97,14 +94,14 @@ const displayBook = (query, res) => {
       const title = data.body.items.volumeInfo.title;
       const author = data.body.items.volumeInfo.authors;
       const desc = helper.trimDesc(data.body.items.volumeInfo.description);
-      const image = data.body.items.volumeInfo.imageLinks ? helper.secureUrl(data.body.items.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
+      const image_url = data.body.items.volumeInfo.imageLinks ? helper.secureUrl(data.body.items.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
       let isbn;
       if (data.body.items.volumeInfo.industryIdentifiers) {
         isbn = helper.concatIsbn(data.body.items.volumeInfo.industryIdentifiers);
       } else { isbn = 'No ISBN'; }
       const bookshelf = 'Nothing Yet';
 
-      const book = new Book(title, author, desc, image, isbn, bookshelf);
+      const book = new Book(title, author, desc, image_url, isbn, bookshelf);
 
       res.render('pages/books/show');
     });
@@ -121,7 +118,7 @@ const searchBooks = (query, res) => {
         const title = book.volumeInfo.title;
         const author = book.volumeInfo.authors;
         const desc = helper.trimDesc(book.volumeInfo.description);
-        const image = book.volumeInfo.imageLinks ? helper.secureUrl(book.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
+        const image_url = book.volumeInfo.imageLinks ? helper.secureUrl(book.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
         let isbn;
         if (book.volumeInfo.industryIdentifiers) {
           isbn = helper.concatIsbn(book.volumeInfo.industryIdentifiers);
@@ -129,7 +126,7 @@ const searchBooks = (query, res) => {
         const bookshelf = 'Nothing Yet';
 
         // run objects through constructor
-        const novel = new Book(title, author, desc, image, isbn, bookshelf);
+        const novel = new Book(title, author, desc, image_url, isbn, bookshelf);
 
         // save when someone clicks the save button
         // novel.save();

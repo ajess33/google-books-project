@@ -22,7 +22,7 @@
     <% data.forEach(book => { %>
     <form action="/save" method="post" class="book-results-list">
       <li class="book">
-        <input name="image"><img src=<%= book.image %>alt="book thumbnail">
+        <img src=<%= book.image_url %> alt="book thumbnail">
         <input name="title" type="text" value="<%= book.title %>" />
         <input name="author" type="text" value="<%= book.author %>" />
         <input name="description" type="text" class="description" value='<%= book.description %>' />
