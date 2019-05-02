@@ -34,13 +34,8 @@ app.get('/search', (req, res) => {
   res.render('pages/searchForm');
 });
 
-app.get('/books/:id', (req, res) => {
-  const query = req.params.id;
-  // console.log(query);
-  displayBook(query, res);
-});
-
 app.post('/save', (req, res) => {
+  // console.log(req.body);
   saveBook(req.body);
   res.redirect('/');
 });
@@ -61,6 +56,7 @@ function getBooksFromDB(req, res) {
   const handler = {
     cacheHit: function (results) {
       console.log('Found stuff in DB!');
+      console.log(results.rows);
       res.render('pages/index', { results: results.rows });
     },
   };
@@ -77,35 +73,37 @@ Book.lookup = function (handler) {
 };
 
 const saveBook = function (book) {
+  console.log("BOOK", book);
   const SQL = `INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`;
 
-  const values = [book.title, book.image, book.author, book.isbn, book.desc, book.bookshelf];
+  const values = [book.title, book.author, book.isbn, book.image_url, book.description, book.bookshelf];
+  // console.log(values);
   client.query(SQL, values)
     .then(results => {
       this.id = results.rows[0].id;
     });
 };
 
-const displayBook = (query, res) => {
-  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
+// const displayBook = (query, res) => {
+//   const URL = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
 
-  return superagent.get(URL)
-    .then(data => {
-      const title = data.body.items.volumeInfo.title;
-      const author = data.body.items.volumeInfo.authors;
-      const desc = helper.trimDesc(data.body.items.volumeInfo.description);
-      const image_url = data.body.items.volumeInfo.imageLinks ? helper.secureUrl(data.body.items.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
-      let isbn;
-      if (data.body.items.volumeInfo.industryIdentifiers) {
-        isbn = helper.concatIsbn(data.body.items.volumeInfo.industryIdentifiers);
-      } else { isbn = 'No ISBN'; }
-      const bookshelf = 'Nothing Yet';
+//   return superagent.get(URL)
+//     .then(data => {
+//       const title = data.body.items.volumeInfo.title;
+//       const author = data.body.items.volumeInfo.authors;
+//       const desc = helper.trimDesc(data.body.items.volumeInfo.description);
+//       const image_url = data.body.items.volumeInfo.imageLinks ? helper.secureUrl(data.body.items.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
+//       let isbn;
+//       if (data.body.items.volumeInfo.industryIdentifiers) {
+//         isbn = helper.concatIsbn(data.body.items.volumeInfo.industryIdentifiers);
+//       } else { isbn = 'No ISBN'; }
+//       const bookshelf = 'Nothing Yet';
 
-      const book = new Book(title, author, desc, image_url, isbn, bookshelf);
+//       const book = new Book(title, author, desc, image_url, isbn, bookshelf);
 
-      res.render('pages/books/show');
-    });
-};
+//       res.render('pages/books/show');
+//     });
+// };
 
 // SEARCH API FOR BOOKS
 const searchBooks = (query, res) => {
@@ -113,6 +111,7 @@ const searchBooks = (query, res) => {
   const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? query.searchField : `inauthor:${query.searchField}`}`;
   return superagent.get(URL)
     .then(data => {
+
       // loop through returned objects
       const bookList = data.body.items.map(book => {
         const title = book.volumeInfo.title;
@@ -128,9 +127,6 @@ const searchBooks = (query, res) => {
         // run objects through constructor
         const novel = new Book(title, author, desc, image_url, isbn, bookshelf);
 
-        // save when someone clicks the save button
-        // novel.save();
-
         return novel;
       });
       res.render('pages/searchResults', { data: bookList });
@@ -139,18 +135,14 @@ const searchBooks = (query, res) => {
 
 
 // BOOK CONSTRUCTOR
-Book.all = [];
-
-
 function Book(title, author, description, image, isbn, bookshelf) {
   console.log(app.locals.count);
   this.title = title || 'Unknown Book Title';
   this.author = author || 'Unknown Author';
   this.description = description || 'No Description';
-  this.image = image;
+  this.image_url = image;
   this.isbn = isbn;
   this.bookshelf = bookshelf;
-  Book.all.push(this);
 }
 
 app.listen(PORT, () => console.log(`App is up on ${PORT}`));

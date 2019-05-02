@@ -13,9 +13,11 @@
   <link rel="stylesheet" href="reset.css">
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
 </head>
+<body>
 
-<h1>BEST BOOKS</h1>
-<p class="saved-books-count">Saved Books: <%= results.length %></p>
+<h1 class="title">BEST BOOKS</h1>
+<a href="search">SEARCH GOOGLE BOOKS</a>
+<p class="saved-books-count">Saved Books: <span class="counter"><%= results.length %></span> </p>
 <section class="books-list">
 
   <% if (results.length > 0)  {%>
@@ -23,10 +25,10 @@
   <form class="saved-books-form">
     <ul>
       <li class="book">
-        <input name="title" value='<%= book.title %>' />
-        <img src=<%= book.image_url %> alt='book thumbnail'>
-        <input name="author" type="text" value='<%= book.author %>'' />
-        <input name="description" type="text" class="description" value='<%= book.description %>' />
+        <input name="title" value='<%= book.title %>' class="input-form" />
+        <img src='<%= book.image_url %>' alt='book thumbnail'>
+        <input name="author" type="text" value='<%= book.author %>' class="input-form" />
+        <input name="description" type="text" class="description" value='<%= book.description %>' class="input-form" />
         <input value="MORE DETAILS" class="more-details" type="submit" />
       </li>
     </ul>
