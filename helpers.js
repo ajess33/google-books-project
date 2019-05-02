@@ -13,6 +13,21 @@ module.exports = {
 
   concatIsbn: function (object) {
     return `${object[0].type} ${object[0].identifier}`;
+  },
+
+  trimDesc: function(desc) {
+    if (!desc) {
+      return 'No description available';
+    } else {
+      let descArr = desc.split(' ');
+      if (descArr.length > 40) {
+        descArr.splice(40);
+        console.log(descArr);
+        return descArr.join(' ');
+      } else {
+        return desc;
+      }
+    }
   }
 
 };

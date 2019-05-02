@@ -1,4 +1,74 @@
 /* =================================
+SAVED BOOKS
+================================= */
+
+
+
+.saved-books-form {
+  background-color: #D9E9FA;
+  width: 300px;
+  height: 450px;
+  padding: 20px 15px;
+  border-radius: 3px;
+  text-align: left;
+}
+
+.saved-books-form img {
+  display: block;
+  margin: 15px auto;
+}
+
+.book h3 {
+  text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.book h6 {
+  text-align: center;
+}
+
+.book .description {
+  display: block;
+  margin: 10px auto;
+  width: 200px;
+}
+
+.label-p {
+  font-weight: bold;
+  display: inline;
+}
+
+/* =================================
+SEARCH RESULTS
+================================= */
+
+.book-results-list {
+  background-color: #D9E9FA;
+  width: 300px;
+  height: 450px;
+  margin: 0 5px;
+  padding: 20px 15px;
+  border-radius: 3px;
+  text-align: left;
+  margin-bottom: 30px;
+  /* overflow: hidden; */
+  list-style: none;
+}
+
+.book-results-list img {
+  display: block;
+  margin: 0 auto;
+}
+
+.save-book {
+  /* height: 20px;
+  width: 100px;
+  padding: 15px; */
+}
+
+/* =================================
 SEARCH FORM
 ================================= */
 
