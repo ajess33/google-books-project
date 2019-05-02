@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Book Results</title>
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="modules.css">
+  <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="state.css">
+  <link rel="stylesheet" href="reset.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
+</head>
+
+<body>
+  <h2>Search Results</h2>
+  <p></p>
+  <section class="books-list">
+    <% data.forEach(book => { %>
+    <form action="/save" method="post" class="book-results-list">
+      <li class="book">
+        <img src=<%= book.image_url %> alt="book thumbnail">
+        <input name="title" type="text" value="<%= book.title %>" />
+        <input name="author" type="text" value="<%= book.author %>" />
+        <input name="description" type="text" class="description" value='<%= book.description %>' />
+        <input name="bookshelf" type="text" value="" />
+        <input class="save-book" value="SAVE BOOK" type="submit">
+      </li>
+    </form>
+    <% }) %>
+
+  </section>
+</body>
+
+</html>
