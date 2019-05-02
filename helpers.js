@@ -22,7 +22,6 @@ module.exports = {
       let descArr = desc.split(' ');
       if (descArr.length > 40) {
         descArr.splice(40);
-        console.log(descArr);
         return descArr.join(' ');
       } else {
         return desc;

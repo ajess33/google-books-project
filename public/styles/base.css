@@ -16,13 +16,26 @@ header {
   color: #fff;
 }
 
-h1 {
+.title {
   margin: 30px 0;
+  font-size: 4rem;
+  color: #1CC6FF;
 }
 
 img {
   height: auto;
   width: 120px;
+}
+
+a {
+  height: 30px;
+  width: 200px;
+  background: #97fbd1;
+  color: #fff;
+  text-decoration: none;
+  padding: 20px !important;
+  border-radius: 3px;
+  /* margin: 30px 0 !important; */
 }
 
 form {
