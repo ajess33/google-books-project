@@ -6,40 +6,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Google Books Project</title>
-  <link rel="stylesheet" href="base.css">
-  <link rel="stylesheet" href="modules.css">
-  <link rel="stylesheet" href="layout.css">
-  <link rel="stylesheet" href="state.css">
-  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/modules.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/state.css">
+  <link rel="stylesheet" href="styles/reset.css">
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
 </head>
+
 <body>
 
-<h1 class="title">BEST BOOKS</h1>
-<a href="search">SEARCH GOOGLE BOOKS</a>
-<p class="saved-books-count">Saved Books: <span class="counter"><%= results.length %></span> </p>
-<section class="books-list">
+  <h1 class="title">BEST BOOKS</h1>
+  <a href="search">SEARCH GOOGLE BOOKS</a>
+  <p class="saved-books-count">Saved Books: <span class="counter"><%= results.length %></span> </p>
+  <section class="books-list">
 
-  <% if (results.length > 0)  {%>
-  <% results.forEach(book => { %>
-  <form class="saved-books-form">
-    <ul>
-      <li class="book">
-        <input name="title" value='<%= book.title %>' class="input-form" />
-        <img src='<%= book.image_url %>' alt='book thumbnail'>
-        <input name="author" type="text" value='<%= book.author %>' class="input-form" />
-        <input name="description" type="text" class="description" value='<%= book.description %>' class="input-form" />
-        <input value="MORE DETAILS" class="more-details" type="submit" />
-      </li>
-    </ul>
-  </form>
-  <% }) %>
-  <% } else { %>
-  <h3>Hmmmm, looks like you need to save some books!</h3>
-  <a href="/search">Search Books</a>
-  <% } %>
-</section>
+    <% if (results.length > 0)  {%>
+    <% results.forEach(book => { %>
+    <section class="saved-books">
+      <form class="saved-books-form">
+        <ul>
+          <li class="book">
+            <input type="hidden" name="title" value='<%= book.title %>' class="input-form" />
+            <h4><%= book.title %></h4>
 
+            <input name="image_url" value="<%= book.image_url %>" type="hidden" />
+            <img src='<%= book.image_url %>' alt='book thumbnail'>
+
+            <input name="author" type="hidden" value='<%= book.author %>' class="input-form" />
+            <p><%= book.author %></p>
+
+            <input name="description" type="hidden" class="description" value='<%= book.description %>'
+              class="input-form" />
+            <p class="book-description"><%= book.description %></p>
+
+            <!-- <input value="MORE DETAILS" id="more-details" type="submit" /> -->
+          </li>
+        </ul>
+      </form>
+      <section class='details-section'>
+        <button id="more-details">DETAILS</button><button id="update-book">UPDATE</button><button
+          id="delete-book">DELETE</button>
+        <article class="show-toggle" id="more-details-list">
+          <ul>
+            <li>
+              <p><%= book.isbn %></p>
+            </li>
+            <li>
+              <p>Bookshelf: <%= book.bookshelf %></p>
+            </li>
+          </ul>
+        </article>
+      </section>
+    </section>
+    <% }) %>
+    <% } else { %>
+    <h3>Hmmmm, looks like you need to save some books!</h3>
+    <a href="/search">Search Books</a>
+    <% } %>
+  </section>
+  <%- include("../layout/footer.ejs") %>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="js/client.js"></script>
 </body>
 
 </html>
