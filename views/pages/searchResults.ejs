@@ -20,29 +20,38 @@
   <a href="search">SEARCH AGAIN</a>
   <section class="books-list">
     <% data.forEach(book => { %>
-    <form action="/save" method="post" class="book-results-list">
-      <li class="book">
-        <input name="title" type="hidden" value="<%= book.title %>" />
-        <h4><%= book.title %></h4>
+      <section class="book-results-list">
+      <form action="/save" method="post">
+        <li class="book">
+          <input name="title" type="hidden" value="<%= book.title %>" />
+          <h4><%= book.title %></h4>
 
-        <input name="image_url" type="hidden" value="<%= book.image_url %>" />
-        <img src='<%= book.image_url %>' alt="book thumbnail">
+          <input name="image_url" type="hidden" value="<%= book.image_url %>" />
+          <img src='<%= book.image_url %>' alt="book thumbnail">
 
-        <input name="author" type="hidden" value="<%= book.author %>" />
-        <p class="book-author"><%= book.author %></p>
+          <input name="author" type="hidden" value="<%= book.author %>" />
+          <em>
+            <p class="book-author"><%= book.author %></p>
+          </em>
 
-        <input name="description" type="hidden" class="description" value='<%= book.description %>' />
-        <p class="book-description"><%= book.description %></p>
+          <input name="description" type="hidden" class="description" value='<%= book.description %>' />
+          <p class="book-description"><%= book.description %></p>
 
-        <input name="bookshelf" type="text" placeholder="Save book to this bookshelf" value="" />
+          <input name="bookshelf" type="text" placeholder="Save book to this bookshelf" value="" />
 
-        <input name="isbn" type="hidden" value="<%= book.isbn %>" />
+          <input name="isbn" type="hidden" value="<%= book.isbn %>" />
 
-        <input class="save-book" value="SAVE BOOK" type="submit" />
-      </li>
-    </form>
-    <% }) %>
 
+          <input class="save-book" value="SAVE BOOK" type="submit" />
+        </li>
+      </form>
+      <section class='update-section'>
+        <button class="update-book">UPDATE</button>
+
+      </section>
+
+    </section>
+      <% }) %>
   </section>
   <%- include("../layout/footer.ejs") %>
 

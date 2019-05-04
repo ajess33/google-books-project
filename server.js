@@ -24,7 +24,8 @@ client.connect();
 client.on('err', err => console.log(err));
 
 
-// ROUTES
+// ROUTES ===================================================
+
 app.get('/', getBooksFromDB);
 
 app.get('/search', (req, res) => {
@@ -54,26 +55,19 @@ function updateBook(res) {
   // res.render('')
 }
 
-// Get saved books from SQL DB
+// QUERY DB FOR SAVED BOOKS ======================================
+
 function getBooksFromDB(req, res) {
-
-  const handler = {
-    cacheHit: function (results) {
-      console.log('Found stuff in DB!');
-      res.render('pages/index', { results: results.rows });
-    },
-  };
-  Book.lookup(handler);
-}
-
-Book.lookup = function (handler) {
   const SQL = `SELECT * FROM books;`;
 
   client.query(SQL)
-    .then(result => {
-      handler.cacheHit(result);
+    .then(results => {
+      console.log('Got books from DB');
+      res.render('pages/index', { results: results.rows });
     });
-};
+}
+
+// SAVE BOOK TO DB ==========================================----
 
 const saveBook = function (book) {
   const SQL = `INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`;
@@ -85,14 +79,15 @@ const saveBook = function (book) {
     });
 };
 
-// SEARCH API FOR BOOKS
+
+// SEARCH API =================================================
+
 const searchBooks = (query, res) => {
 
-  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? query.searchField : `inauthor:${query.searchField}`}`;
+  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? `intitle:${query.searchField}` : `inauthor:${query.searchField}`}`;
   return superagent.get(URL)
     .then(data => {
 
-      // loop through returned objects
       const bookList = data.body.items.map(book => {
         const title = book.volumeInfo.title;
         const author = book.volumeInfo.authors;
@@ -104,7 +99,6 @@ const searchBooks = (query, res) => {
         } else { isbn = 'No ISBN'; }
         const bookshelf = 'Nothing Yet';
 
-        // run objects through constructor
         const novel = new Book(title, author, desc, image_url, isbn, bookshelf);
 
         return novel;
@@ -114,7 +108,8 @@ const searchBooks = (query, res) => {
 };
 
 
-// BOOK CONSTRUCTOR
+// BOOK CONSTRUCTOR =============================================
+
 function Book(title, author, description, image, isbn, bookshelf) {
   this.title = title || 'Unknown Book Title';
   this.author = author || 'Unknown Author';
@@ -123,5 +118,7 @@ function Book(title, author, description, image, isbn, bookshelf) {
   this.isbn = isbn;
   this.bookshelf = bookshelf;
 }
+
+// START SERVER ==================================================
 
 app.listen(PORT, () => console.log(`App is up on ${PORT}`));
