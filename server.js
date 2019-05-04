@@ -16,10 +16,7 @@ const helper = require('./helpers');
 app.set('view engine', 'ejs');
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
-// STYLESHEETS
-app.use(express.static('./public/styles'));
-// EJS FILES
-app.use(express.static('./public'));
+app.use(express.static('./public/'));
 
 // POSTGRES SETUP
 const client = new Client(process.env.DATABASE_URL);
@@ -50,13 +47,19 @@ app.post('/searches', (req, res) => {
   }
 });
 
+app.put('/update/:updatedBook', updateBook);
+
+function updateBook(res) {
+  console.log(res);
+  // res.render('')
+}
+
 // Get saved books from SQL DB
 function getBooksFromDB(req, res) {
 
   const handler = {
     cacheHit: function (results) {
       console.log('Found stuff in DB!');
-      console.log(results.rows);
       res.render('pages/index', { results: results.rows });
     },
   };
@@ -73,37 +76,14 @@ Book.lookup = function (handler) {
 };
 
 const saveBook = function (book) {
-  console.log("BOOK", book);
   const SQL = `INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`;
 
   const values = [book.title, book.author, book.isbn, book.image_url, book.description, book.bookshelf];
-  // console.log(values);
   client.query(SQL, values)
     .then(results => {
       this.id = results.rows[0].id;
     });
 };
-
-// const displayBook = (query, res) => {
-//   const URL = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
-
-//   return superagent.get(URL)
-//     .then(data => {
-//       const title = data.body.items.volumeInfo.title;
-//       const author = data.body.items.volumeInfo.authors;
-//       const desc = helper.trimDesc(data.body.items.volumeInfo.description);
-//       const image_url = data.body.items.volumeInfo.imageLinks ? helper.secureUrl(data.body.items.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
-//       let isbn;
-//       if (data.body.items.volumeInfo.industryIdentifiers) {
-//         isbn = helper.concatIsbn(data.body.items.volumeInfo.industryIdentifiers);
-//       } else { isbn = 'No ISBN'; }
-//       const bookshelf = 'Nothing Yet';
-
-//       const book = new Book(title, author, desc, image_url, isbn, bookshelf);
-
-//       res.render('pages/books/show');
-//     });
-// };
 
 // SEARCH API FOR BOOKS
 const searchBooks = (query, res) => {
@@ -136,7 +116,6 @@ const searchBooks = (query, res) => {
 
 // BOOK CONSTRUCTOR
 function Book(title, author, description, image, isbn, bookshelf) {
-  console.log(app.locals.count);
   this.title = title || 'Unknown Book Title';
   this.author = author || 'Unknown Author';
   this.description = description || 'No Description';

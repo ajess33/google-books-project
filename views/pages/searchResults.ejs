@@ -6,34 +6,46 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Book Results</title>
-  <link rel="stylesheet" href="base.css">
-  <link rel="stylesheet" href="modules.css">
-  <link rel="stylesheet" href="layout.css">
-  <link rel="stylesheet" href="state.css">
-  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/modules.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/state.css">
+  <link rel="stylesheet" href="styles/reset.css">
 
   <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
 </head>
 
 <body>
-  <h2>Search Results</h2>
-  <p></p>
+  <h1 class="title">Search Results</h1>
+  <a href="search">SEARCH AGAIN</a>
   <section class="books-list">
     <% data.forEach(book => { %>
     <form action="/save" method="post" class="book-results-list">
       <li class="book">
-        <input name="title" type="text" value="<%= book.title %>" />
-        <input name
+        <input name="title" type="hidden" value="<%= book.title %>" />
+        <h4><%= book.title %></h4>
+
+        <input name="image_url" type="hidden" value="<%= book.image_url %>" />
         <img src='<%= book.image_url %>' alt="book thumbnail">
-        <input name="author" type="text" value="<%= book.author %>" />
-        <input name="description" type="text" class="description" value='<%= book.description %>' />
-        <input name="bookshelf" type="text" placeholder="Bookshelf name" value="" />
-        <input class="save-book" value="SAVE BOOK" type="submit">
+
+        <input name="author" type="hidden" value="<%= book.author %>" />
+        <p class="book-author"><%= book.author %></p>
+
+        <input name="description" type="hidden" class="description" value='<%= book.description %>' />
+        <p class="book-description"><%= book.description %></p>
+
+        <input name="bookshelf" type="text" placeholder="Save book to this bookshelf" value="" />
+
+        <input name="isbn" type="hidden" value="<%= book.isbn %>" />
+
+        <input class="save-book" value="SAVE BOOK" type="submit" />
       </li>
     </form>
     <% }) %>
 
   </section>
+  <%- include("../layout/footer.ejs") %>
+
 </body>
 
 </html>
