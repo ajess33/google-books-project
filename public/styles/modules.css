@@ -60,15 +60,15 @@ SAVED BOOKS
   display: inline;
 }
 
-.book #more-details, .book #update-book, .book #delete-book {
+.book .more-details, .book .update-book, .book .delete-book {
   width: 300px;
 }
 
-#update-book {
+.update-book {
   background-color: #97FBD1 !important;
 }
 
-#delete-book {
+.delete-book {
   background-color: #FFB0AF !important;
 }
 
@@ -180,7 +180,7 @@ label {
   cursor: pointer;
 }
 
-input[type="submit"], #more-details, #update-book, #delete-book {
+input[type="submit"], .more-details, .update-book, .delete-book {
   display: block;
   margin: 20px auto 20px auto;
   /* width: 250px; */

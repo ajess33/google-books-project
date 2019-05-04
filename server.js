@@ -85,27 +85,6 @@ const saveBook = function (book) {
     });
 };
 
-// const displayBook = (query, res) => {
-//   const URL = `https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=1`;
-
-//   return superagent.get(URL)
-//     .then(data => {
-//       const title = data.body.items.volumeInfo.title;
-//       const author = data.body.items.volumeInfo.authors;
-//       const desc = helper.trimDesc(data.body.items.volumeInfo.description);
-//       const image_url = data.body.items.volumeInfo.imageLinks ? helper.secureUrl(data.body.items.volumeInfo.imageLinks.thumbnail) : 'No Image Available';
-//       let isbn;
-//       if (data.body.items.volumeInfo.industryIdentifiers) {
-//         isbn = helper.concatIsbn(data.body.items.volumeInfo.industryIdentifiers);
-//       } else { isbn = 'No ISBN'; }
-//       const bookshelf = 'Nothing Yet';
-
-//       const book = new Book(title, author, desc, image_url, isbn, bookshelf);
-
-//       res.render('pages/books/show');
-//     });
-// };
-
 // SEARCH API FOR BOOKS
 const searchBooks = (query, res) => {
 
