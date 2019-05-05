@@ -51,7 +51,21 @@ app.get('/update/:id', (req, res) => getSelectedBookFromDB(req, res));
 
 app.put('/update/:id', (req, res) => updateBook(req, res));
 
-// app.delete('/update/:id'), ()
+app.delete('/update/:id', (req, res) => deleteBook(req, res));
+
+// DELETE SAVED BOOK FROM DB ====================================
+
+function deleteBook(req, res) {
+  const { id } = req.params;
+
+  const SQL = `DELETE FROM books WHERE id=${id}`;
+
+  client.query(SQL)
+    .then(result => {
+      res.redirect('/');
+    }
+    );
+}
 
 
 // GET SINGLE BOOK FROM DB ==========================================
@@ -61,7 +75,8 @@ function getSelectedBookFromDB(req, res) {
   const SQL = `SELECT * FROM books WHERE id=${id}`;
   client.query(SQL)
     .then(results => {
-      console.log('Found your book in DB', results);
+      console.log('Found your book in DB');
+
       res.render('pages/singleBook', { book: results.rows[0] });
     });
 }
@@ -69,22 +84,24 @@ function getSelectedBookFromDB(req, res) {
 // UPDATE SINGLE BOOK ===============================================
 
 function updateBook(req, res) {
-  console.log(req);
-  res.send('hello');
+  const { id } = req.params;
+  const book = req.body;
+
+  const SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4 WHERE id=$5`;
+
+  book.bookshelf === '' ? 'No bookshelf' : book.bookshelf;
+  console.log(book.bookshelf);
+
+  const values = [book.title, book.description, book.image_url, book.bookshelf, id];
+
+  client.query(SQL, values)
+    .then(result => {
+      console.log('Found your saved book from DB', result);
+      // res.send(result);
+      res.redirect('/');
+      // getBooksFromDB(req, res);
+    });
 }
-// console.log(req, res);
-// const book = req.body;
-
-// const SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4 WHERE id=$5`;
-
-// const values = [book.title, book.description, book.image_url, book.bookshelf, book.id];
-
-// client.query(SQL, values)
-//   .then(book => {
-//     console.log('Found your saved book from DB', book);
-//     getBooksFromDB(req, res);
-//   });
-
 
 // QUERY DB FOR SAVED BOOKS ======================================
 
