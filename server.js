@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
+const methodOverride = require('method-override');
 const cors = require('cors');
 const { Client } = require('pg');
 
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public/'));
+app.use(methodOverride('_method'));
 
 // POSTGRES SETUP
 const client = new Client(process.env.DATABASE_URL);
@@ -33,7 +35,6 @@ app.get('/search', (req, res) => {
 });
 
 app.post('/save', (req, res) => {
-  // console.log(req.body);
   saveBook(req.body);
   res.redirect('/');
 });
@@ -43,17 +44,45 @@ app.post('/searches', (req, res) => {
     const searchQuery = req.body;
     searchBooks(searchQuery, res);
   }
-  catch (error) {
-    console.log(error);
-  }
+  catch (error) { console.log(error); }
 });
 
-app.put('/update/:updatedBook', updateBook);
+app.get('/update/:id', (req, res) => getSelectedBookFromDB(req, res));
 
-function updateBook(res) {
-  console.log(res);
-  // res.render('')
+app.put('/update/:id'), (req, res) => updateBook(req, res);
+
+
+// GET SINGLE BOOK FROM DB ==========================================
+
+function getSelectedBookFromDB(req, res) {
+  const id = req.params.id;
+  const SQL = `SELECT * FROM books WHERE id=${id}`;
+  client.query(SQL)
+    .then(results => {
+      console.log('Found your book in DB', results);
+      res.render('pages/singleBook', { book: results.rows[0] });
+    });
 }
+
+// UPDATE SINGLE BOOK ===============================================
+
+function updateBook(req, res) {
+  console.log(req);
+  res.send('hello');
+}
+// console.log(req, res);
+// const book = req.body;
+
+// const SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4 WHERE id=$5`;
+
+// const values = [book.title, book.description, book.image_url, book.bookshelf, book.id];
+
+// client.query(SQL, values)
+//   .then(book => {
+//     console.log('Found your saved book from DB', book);
+//     getBooksFromDB(req, res);
+//   });
+
 
 // QUERY DB FOR SAVED BOOKS ======================================
 

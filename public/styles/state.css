@@ -9,10 +9,6 @@ form .radio-input:focus {
 
 /* SHOW DETAILS */
 
- /* .show-toggle {
-  display: none;
-} */
-
 .more-details-list {
   display: none;
   margin: 20px 0;
@@ -21,18 +17,30 @@ form .radio-input:focus {
 label[for="checkbox"] {
   margin-top: 15px;
   display: block;
-  /* padding: 5px 11px; */
-  /* background-color: #ff7; */
-  /* border: 1px solid;
-  border-radius: 3px; */
 }
 
 input[type="checkbox"] {
   display: block;
   margin: 8px auto;
-  background: #ccc;
 }
 
 input[type="checkbox"]:checked + .more-details-list {
   display: block
 }
+
+/* FORM TOGGLE */
+
+.book-results-list .update-book-form {
+  display: none;
+  margin: 20px 0;
+}
+
+.book-results-list label[for="updateCheckbox"] {
+  margin-top: 15px;
+  display: block;
+}
+
+.book-results-list input[type="checkbox"]:checked + .update-book-form {
+  display: block;
+}
+
