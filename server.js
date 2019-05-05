@@ -49,7 +49,9 @@ app.post('/searches', (req, res) => {
 
 app.get('/update/:id', (req, res) => getSelectedBookFromDB(req, res));
 
-app.put('/update/:id'), (req, res) => updateBook(req, res);
+app.put('/update/:id', (req, res) => updateBook(req, res));
+
+// app.delete('/update/:id'), ()
 
 
 // GET SINGLE BOOK FROM DB ==========================================
