@@ -60,8 +60,9 @@ SAVED BOOKS
   display: inline;
 }
 
-.book .more-details, .book .update-book, .book .delete-book {
-  width: 300px;
+.more-details, .update-book, .delete-book {
+  width: 300px !important;
+
 }
 
 .update-book {
@@ -70,6 +71,10 @@ SAVED BOOKS
 
 .delete-book {
   background-color: #FFB0AF !important;
+}
+
+.more-details-list li {
+  margin-top: 10px;
 }
 
 /* =================================
@@ -104,9 +109,13 @@ SEARCH RESULTS
   margin: 20px auto;
 }
 
+.saved-books img {
+  width: 250px;
+}
+
 .book-description {
   text-align: left;
-  font-size: 0.9;
+  font-size: 0.8;
   margin-top: 20px;
 }
 
@@ -120,7 +129,7 @@ input[name="bookshelf"] {
   height: 40px;
 }
 
-.books-list .save-book {
+.save-book {
   width: 300px;
 }
 

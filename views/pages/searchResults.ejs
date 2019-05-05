@@ -20,32 +20,24 @@
   <a href="search">SEARCH AGAIN</a>
   <section class="books-list">
     <% data.forEach(book => { %>
-    <form action="/save" method="post" class="book-results-list">
-      <li class="book">
-        <input name="title" type="hidden" value="<%= book.title %>" />
-        <h4><%= book.title %></h4>
+      <section class="book-results-list">
+        <li class="book">
+          <h4><%= book.title %></h4>
+          <img src='<%= book.image_url %>' alt="book thumbnail">
+          <em>
+            <p class="book-author"><%= book.author %></p>
+          </em>
+          <p class="book-description"><%= book.description %></p>
 
-        <input name="image_url" type="hidden" value="<%= book.image_url %>" />
-        <img src='<%= book.image_url %>' alt="book thumbnail">
 
-        <input name="author" type="hidden" value="<%= book.author %>" />
-        <p class="book-author"><%= book.author %></p>
-
-        <input name="description" type="hidden" class="description" value='<%= book.description %>' />
-        <p class="book-description"><%= book.description %></p>
-
-        <input name="bookshelf" type="text" placeholder="Save book to this bookshelf" value="" />
-
-        <input name="isbn" type="hidden" value="<%= book.isbn %>" />
-
-        <input class="save-book" value="SAVE BOOK" type="submit" />
-      </li>
-    </form>
-    <% }) %>
-
+          <label for="updateCheckbox">SELECT BOOK</label>
+          <input type="checkbox" id="expand-update-form" />
+          <%- include("../layout/updateForm.ejs", {book: book}) %>
+        </li>
+    </section>
+      <% }) %>
   </section>
   <%- include("../layout/footer.ejs") %>
-
 </body>
 
 </html>

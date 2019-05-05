@@ -24,7 +24,7 @@
     <% if (results.length > 0)  {%>
     <% results.forEach(book => { %>
     <section class="saved-books">
-      <form class="saved-books-form">
+      <form>
         <ul>
           <li class="book">
             <input type="hidden" name="title" value='<%= book.title %>' class="input-form" />
@@ -34,22 +34,26 @@
             <img src='<%= book.image_url %>' alt='book thumbnail'>
 
             <input name="author" type="hidden" value='<%= book.author %>' class="input-form" />
-            <p><%= book.author %></p>
+            <em>
+              <p><%= book.author %></p>
+            </em>
 
             <input name="description" type="hidden" class="description" value='<%= book.description %>'
               class="input-form" />
-            <p class="book-description"><%= book.description %></p>
 
             <!-- <input value="MORE DETAILS" id="more-details" type="submit" /> -->
           </li>
         </ul>
       </form>
       <section class='details-section'>
-        <button class="update-book">UPDATE</button>
-        <button class="delete-book">DELETE</button>
-        <button class="more-details">DETAILS</button>
-        <article class="show-toggle more-details-list">
+        <label name="check-display" for="checkbox"></label>DETAILS
+        <input id="checkbox" type="checkbox" />
+        <!-- <button class="more-details">DETAILS</button> -->
+        <article class="more-details-list">
           <ul>
+            <li>
+              <p class="book-description"><%= book.description %></p>
+            </li>
             <li>
               <p><%= book.isbn %></p>
             </li>
@@ -57,8 +61,10 @@
               <p>Bookshelf: <%= book.bookshelf %></p>
             </li>
           </ul>
+          <a href="/update/<%= book.id %>" class="update-book">UPDATE BOOK</a>
         </article>
       </section>
+      <button class="delete-book">DELETE</button>
     </section>
     <% }) %>
     <% } else { %>

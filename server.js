@@ -3,6 +3,7 @@
 require('dotenv').config();
 const express = require('express');
 const superagent = require('superagent');
+const methodOverride = require('method-override');
 const cors = require('cors');
 const { Client } = require('pg');
 
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('./public/'));
+app.use(methodOverride('_method'));
 
 // POSTGRES SETUP
 const client = new Client(process.env.DATABASE_URL);
@@ -24,7 +26,8 @@ client.connect();
 client.on('err', err => console.log(err));
 
 
-// ROUTES
+// ROUTES ===================================================
+
 app.get('/', getBooksFromDB);
 
 app.get('/search', (req, res) => {
@@ -32,7 +35,6 @@ app.get('/search', (req, res) => {
 });
 
 app.post('/save', (req, res) => {
-  // console.log(req.body);
   saveBook(req.body);
   res.redirect('/');
 });
@@ -42,38 +44,59 @@ app.post('/searches', (req, res) => {
     const searchQuery = req.body;
     searchBooks(searchQuery, res);
   }
-  catch (error) {
-    console.log(error);
-  }
+  catch (error) { console.log(error); }
 });
 
-app.put('/update/:updatedBook', updateBook);
+app.get('/update/:id', (req, res) => getSelectedBookFromDB(req, res));
 
-function updateBook(res) {
-  console.log(res);
-  // res.render('')
+app.put('/update/:id'), (req, res) => updateBook(req, res);
+
+
+// GET SINGLE BOOK FROM DB ==========================================
+
+function getSelectedBookFromDB(req, res) {
+  const id = req.params.id;
+  const SQL = `SELECT * FROM books WHERE id=${id}`;
+  client.query(SQL)
+    .then(results => {
+      console.log('Found your book in DB', results);
+      res.render('pages/singleBook', { book: results.rows[0] });
+    });
 }
 
-// Get saved books from SQL DB
+// UPDATE SINGLE BOOK ===============================================
+
+function updateBook(req, res) {
+  console.log(req);
+  res.send('hello');
+}
+// console.log(req, res);
+// const book = req.body;
+
+// const SQL = `UPDATE books SET title=$1, author=$2, isbn=$3, image_url=$4 WHERE id=$5`;
+
+// const values = [book.title, book.description, book.image_url, book.bookshelf, book.id];
+
+// client.query(SQL, values)
+//   .then(book => {
+//     console.log('Found your saved book from DB', book);
+//     getBooksFromDB(req, res);
+//   });
+
+
+// QUERY DB FOR SAVED BOOKS ======================================
+
 function getBooksFromDB(req, res) {
-
-  const handler = {
-    cacheHit: function (results) {
-      console.log('Found stuff in DB!');
-      res.render('pages/index', { results: results.rows });
-    },
-  };
-  Book.lookup(handler);
-}
-
-Book.lookup = function (handler) {
   const SQL = `SELECT * FROM books;`;
 
   client.query(SQL)
-    .then(result => {
-      handler.cacheHit(result);
+    .then(results => {
+      console.log('Got books from DB');
+      res.render('pages/index', { results: results.rows });
     });
-};
+}
+
+// SAVE BOOK TO DB ==========================================----
 
 const saveBook = function (book) {
   const SQL = `INSERT INTO books (title, author, isbn, image_url, description, bookshelf) VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`;
@@ -85,14 +108,15 @@ const saveBook = function (book) {
     });
 };
 
-// SEARCH API FOR BOOKS
+
+// SEARCH API =================================================
+
 const searchBooks = (query, res) => {
 
-  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? query.searchField : `inauthor:${query.searchField}`}`;
+  const URL = `https://www.googleapis.com/books/v1/volumes?q=${query.title ? `intitle:${query.searchField}` : `inauthor:${query.searchField}`}`;
   return superagent.get(URL)
     .then(data => {
 
-      // loop through returned objects
       const bookList = data.body.items.map(book => {
         const title = book.volumeInfo.title;
         const author = book.volumeInfo.authors;
@@ -104,7 +128,6 @@ const searchBooks = (query, res) => {
         } else { isbn = 'No ISBN'; }
         const bookshelf = 'Nothing Yet';
 
-        // run objects through constructor
         const novel = new Book(title, author, desc, image_url, isbn, bookshelf);
 
         return novel;
@@ -114,7 +137,8 @@ const searchBooks = (query, res) => {
 };
 
 
-// BOOK CONSTRUCTOR
+// BOOK CONSTRUCTOR =============================================
+
 function Book(title, author, description, image, isbn, bookshelf) {
   this.title = title || 'Unknown Book Title';
   this.author = author || 'Unknown Author';
@@ -123,5 +147,7 @@ function Book(title, author, description, image, isbn, bookshelf) {
   this.isbn = isbn;
   this.bookshelf = bookshelf;
 }
+
+// START SERVER ==================================================
 
 app.listen(PORT, () => console.log(`App is up on ${PORT}`));

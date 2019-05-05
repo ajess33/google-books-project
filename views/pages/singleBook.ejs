@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Book</title>
+  <!-- <%= book.title %> -->
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/modules.css">
+  <link rel="stylesheet" href="styles/layout.css">
+  <link rel="stylesheet" href="styles/state.css">
+  <link rel="stylesheet" href="styles/reset.css">
+  <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,700" rel="stylesheet">
+</head>
+<body>
+
+  <section class='single-book'>
+    <h4><%= book.title %></h4>
+    <img src='<%= book.image_url %>' alt='book thumbnail'>
+    <em><p><%= book.author %></p></em>
+
+    <form class="updated-saved-book" action='/update/<%= book.id %>?_method=PUT' method='POST'>
+      <input name="title" type="text" value="<%= book.title %>" />
+      <input name="description" type="text" class="description" value='<%= book.description %>' />
+      <input name="image_url" type="text" value='<%= book.image_url %>' />
+      <input name="bookshelf" type="text" value='<%= book.bookshelf %>' />
+      <input type='submit' value="UPDATE BOOK" />
+    </form>
+  </section>
+
+</body>
+</html>

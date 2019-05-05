@@ -9,6 +9,38 @@ form .radio-input:focus {
 
 /* SHOW DETAILS */
 
-.show-toggle {
+.more-details-list {
   display: none;
+  margin: 20px 0;
 }
+
+label[for="checkbox"] {
+  margin-top: 15px;
+  display: block;
+}
+
+input[type="checkbox"] {
+  display: block;
+  margin: 8px auto;
+}
+
+input[type="checkbox"]:checked + .more-details-list {
+  display: block
+}
+
+/* FORM TOGGLE */
+
+.book-results-list .update-book-form {
+  display: none;
+  margin: 20px 0;
+}
+
+.book-results-list label[for="updateCheckbox"] {
+  margin-top: 15px;
+  display: block;
+}
+
+.book-results-list input[type="checkbox"]:checked + .update-book-form {
+  display: block;
+}
+
